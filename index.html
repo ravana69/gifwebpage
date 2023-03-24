@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Images from Folder</title>
+  <script>
+    function loadImages() {
+      const imageContainer = document.getElementById("image-container");
+      const imageFolder = "https://github.com/ravana69/gifwebpage/tree/3bff74ca8cd78e339c9baa04a40ff480bea980cc/gif/"; // Replace with the path to your image folder
+      const fileTypes = ["jpg", "jpeg", "png", "gif"]; // Add or remove file types as needed
+
+      let images = "";
+
+      fileTypes.forEach(fileType => {
+        const xhr = new XMLHttpRequest();
+        xhr.open("GET", imageFolder, true);
+        xhr.onload = function() {
+          if (xhr.status === 200) {
+            const fileNames = xhr.responseText.split("\n");
+            fileNames.forEach(fileName => {
+              if (fileName.endsWith(`.${fileType}`)) {
+                images += `<img src="${imageFolder}${fileName}">`;
+              }
+            });
+            imageContainer.innerHTML = images;
+          }
+        };
+        xhr.send();
+      });
+    }
+  </script>
+</head>
+<body onload="loadImages()">
+  <h1>Images from Folder</h1>
+  <div id="image-container"></div>
+</body>
+</html>
